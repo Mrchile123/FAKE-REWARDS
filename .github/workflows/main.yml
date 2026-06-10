@@ -23,19 +23,25 @@ jobs:
       - name: Descargar Código
         uses: actions/checkout@v4
 
+      # CORREGIDO: Ahora apunta correctamente a la acción setup de Geode
       - name: Configurar Entorno Geode
-        uses: geode-sdk/actions/setup@main
+        uses: geode-sdk/actions/setup@v3
         with:
           build-config: ${{ matrix.config.target }}
 
+      # Agregamos la herramienta necesaria para compilar en Linux/Android
+      - name: Configurar Ninja
+        uses: anywheresoftware/setup-ninja@v1.1.3
+
+       Tarjetas de compilación del mod
       - name: Compilar Mod
         run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
+      # CORREGIDO: Se cambió 'actions/artifacts' por 'actions/upload-artifact'
       - name: Subir Archivo Compilado
-        uses: actions/artifacts@v4
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.config.target }}
           path: build/*.geode
-          
