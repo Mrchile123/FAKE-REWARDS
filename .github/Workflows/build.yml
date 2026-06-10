@@ -1,0 +1,40 @@
+name: Compilar Mod para Celulares
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Android 32-bit
+            target: Android32
+          - name: Android 64-bit
+            target: Android64
+
+    name: ${{ matrix.config.name }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Entorno Geode
+        uses: geode-sdk/actions/setup@main
+        with:
+          build-config: ${{ matrix.config.target }}
+
+      - name: Compilar Mod
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: Subir Archivo Compilado
+        uses: actions/artifacts@v4
+        with:
+          name: ${{ matrix.config.target }}
+          path: build/*.geode
