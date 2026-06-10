@@ -1,0 +1,23 @@
+{
+	"geode": "3.0.0-beta.1",
+	"id": "hsko.fakerewards",
+	"version": "1.0.0",
+	"name": "Fake rewards",
+	"developer": "hola soy king orange",
+	"description": "¡Activa recompensas falsas de forma segura gracias al Safe Mode!",
+	"dependencies": [
+		{
+			"id": "geode.loader",
+			"version": ">=3.0.0-beta.1",
+			"importance": "required"
+		}
+	],
+	"settings": {
+		"enable-fake-stats": {
+			"type": "bool",
+			"name": "Activar Stats Falsas",
+			"description": "Te da millones de recursos visuales. ¡Activa el Safe Mode automáticamente!",
+			"default": false
+		}
+	}
+}
